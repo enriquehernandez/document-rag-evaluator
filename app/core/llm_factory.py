@@ -37,7 +37,9 @@ def get_llm() -> BaseChatModel:
         return ChatGroq(
             api_key=settings.GROQ_API_KEY,
             model_name=settings.GROQ_MODEL,
-            temperature=0
+            temperature=0,
+            max_tokens=4096,  # Damos más margen para que no se corte la respuesta
+            n=1  # <-- Forzamos a que solo pida 1
         )
 
     elif provider == "OPENROUTER":

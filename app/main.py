@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from app.services.rag_engine import RAGEngine
@@ -13,12 +15,20 @@ app = FastAPI(
 rag_engine = RAGEngine()
 
 
+class TokenUsage(BaseModel):
+    prompt_tokens: int
+    completion_tokens: int
+    total_tokens: int
+
+
 class ChatRequest(BaseModel):
     query: str
 
 
 class ChatResponse(BaseModel):
     answer: str
+    sources: List[str] = []
+    tokens_used: TokenUsage
 
 
 @app.get("/")
@@ -33,10 +43,13 @@ def health_check():
 @app.post("/chat", response_model=ChatResponse)
 async def chat_with_docs(request: ChatRequest):
     try:
-        chain = rag_engine.get_chain()
-        # Invocamos la cadena con la pregunta del usuario
-        response = chain.invoke(request.query)
-        return ChatResponse(answer=response)
+        # Obtenemos la respuesta y los documentos fuente
+        result = await rag_engine.get_answer_with_sources(request.query)
+        return ChatResponse(
+            answer=result["answer"],
+            sources=result["sources"],
+            tokens_used=result["tokens_used"]
+        )
     except Exception as e:
         print(f"Error: {e}")
         raise HTTPException(
