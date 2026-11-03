@@ -39,5 +39,5 @@ sequenceDiagram
 - **LLM Provider:** Groq (`llama-3.3-70b-versatile`) configurado para respuestas ultrarrápidas.
 
 ## 4. Patrones de Diseño Aplicados
-- **Factory Pattern:** Utilizado en `llm_factory.py` y `embeddings_factory.py` permiten cambiar de proveedor de IA sin modificar la lógica del RAG según el archivo `.env`.
+- **Registry Pattern (Factory Mejorado):** Utilizado en `llm_factory.py` y `embeddings_factory.py`. En lugar de una cadena de `if/elif` (que viola el principio Open/Closed de SOLID), usamos un diccionario (`_PROVIDER_REGISTRY`) que mapea el nombre del proveedor a su función constructora. Agregar un nuevo proveedor solo requiere crear una función y añadir una línea al diccionario, sin modificar la lógica central.
 - **LCEL (LangChain Expression Language):** Uso de tuberías (`|`) para construir la cadena de ejecución de forma declarativa.

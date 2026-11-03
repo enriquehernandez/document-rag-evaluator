@@ -22,3 +22,9 @@ Como los LLMs tienen un límite de texto que pueden leer a la vez, dividimos los
 *   **Answer Relevancy (Relevancia):** Mide si la respuesta aborda directamente la pregunta del usuario.
 *   **Context Precision (Precisión del Contexto):** Mide si los documentos recuperados de la base de datos vectorial son realmente útiles para responder la pregunta.
 *   **Context Recall (Recuperación del Contexto):** Mide si el sistema fue capaz de recuperar toda la información necesaria que estaba en los documentos originales.
+
+### ¿Qué es el Registry Pattern?
+Es un patrón de diseño que utiliza un diccionario (o un mapa) para asociar claves (como el nombre de un proveedor de IA) con funciones constructoras. A diferencia de una cadena de `if/elif`, el Registry Pattern permite agregar nuevas funcionalidades sin modificar el código existente, cumpliendo con el principio Open/Closed de SOLID.
+
+### ¿Qué es un Mock?
+Es un objeto simulado que imita el comportamiento de un objeto real en un entorno de pruebas. Se usa para aislar el código que se está probando de dependencias externas (como APIs de terceros), permitiendo que los tests se ejecuten de forma rápida y predecible.

@@ -144,6 +144,23 @@ La API devuelve un JSON estructurado para auditoría y control de costos:
 }
 ```
 
+## 🧪 Testing y Calidad de Código
+
+El proyecto cuenta con una suite de pruebas unitarias y de integración utilizando **pytest**. Se ha alcanzado un **100% de cobertura de código** en la carpeta `app/`, asegurando la fiabilidad de la API, las fábricas de LLMs y el motor RAG.
+
+Para ejecutar los tests y ver el reporte de cobertura:
+```bash
+uv run pytest --cov=app tests/ --cov-report=term-missing
+o
+uv run tom test
+```
+
+**Herramientas utilizadas:**
+
+- pytest y pytest-asyncio para pruebas síncronas y asíncronas.
+- unittest.mock para simular APIs externas (Groq, OpenRouter) y evitar costos durante los tests.
+- SonarQube (análisis estático) para garantizar que no haya complejidad cognitiva excesiva.
+
 ## 📊 Evaluación de Calidad (Ragas)
 El proyecto incluye un pipeline de evaluación automatizado para medir la calidad de las respuestas y evitar alucinaciones. Utiliza el LLM configurado como "juez" para auditar los resultados.
 

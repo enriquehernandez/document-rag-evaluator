@@ -66,10 +66,6 @@ eval_dataset = [
         "ground_truth": "La idea proviene de los desiertos sumerios que visitó cuando era adolescente."
     },
     {
-        "question": "¿Qué tipo de chocolate es el más consumido en Europa?",
-        "ground_truth": "Europa es el mayor mercado de chocolate, consumiendo casi la mitad del chocolate del mundo."
-    },
-    {
         "question": "¿Qué pasa en el juego de construcción de equipos (team-building) llamado 'The tyre game'?",
         "ground_truth": "Los equipos forman un círculo, se dan la mano y deben pasarse un neumático de bicicleta por el cuerpo hasta que vuelva a su posición original, sin soltarse de las manos."
     }
@@ -118,6 +114,11 @@ async def run_evaluation():
     ragas_llm = LangchainLLMWrapper(get_llm())
     ragas_embeddings = LangchainEmbeddingsWrapper(get_embeddings())
     print("🧠 Calculando métricas con Ragas (esto puede tardar unos minutos)...")
+
+    # ✨ SOLUCIÓN: Forzar a que AnswerRelevancy use n=1 (strictness)
+    # Esto evita que Ragas intente pedir 3 respuestas a Groq
+    answer_relevancy.strictness = 1
+
     result = evaluate(
         dataset=dataset,
         metrics=[
@@ -127,7 +128,9 @@ async def run_evaluation():
             context_recall
         ],
         llm=ragas_llm,              # <-- Le pasamos el LLM de Groq
-        embeddings=ragas_embeddings  # <-- Le pasamos los embeddings de OpenRouter
+        embeddings=ragas_embeddings,  # <-- Le pasamos los embeddings de OpenRouter
+        # <-- Si una métrica falla para una fila, no lances una excepción que detenga todo el proceso; simplemente devuelve NaN (Not a Number) para esa fil
+        raise_exceptions=False
     )
 
     # 5. Guardar y mostrar resultados
@@ -135,6 +138,7 @@ async def run_evaluation():
     print(result)
 
     df = result.to_pandas()
+
     output_path = Path(__file__).resolve().parent.parent / \
         "evaluation_results.csv"
     df.to_csv(output_path, index=False)

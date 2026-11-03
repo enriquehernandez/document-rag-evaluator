@@ -4,7 +4,8 @@ from typing import Dict, Any
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from langchain_community.vectorstores import Chroma
+# from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 
 from app.core.llm_factory import get_llm
 from app.core.embeddings_factory import get_embeddings
@@ -28,10 +29,20 @@ class RAGEngine:
         self.retriever = self.vectorstore.as_retriever(search_kwargs={"k": 4})
 
         # Prompt del sistema (Optimizado para RAG y citación de fuentes)
+        # system_prompt = (
+        #     "Eres un asistente experto. Utiliza los siguientes fragmentos de contexto "
+        #     "para responder la pregunta del usuario. Si no sabes la respuesta, di "
+        #     "claramente que no tienes información suficiente en los documentos proporcionados.\n\n"
+        #     "Contexto:\n{context}"
+        # )
         system_prompt = (
-            "Eres un asistente experto. Utiliza los siguientes fragmentos de contexto "
-            "para responder la pregunta del usuario. Si no sabes la respuesta, di "
-            "claramente que no tienes información suficiente en los documentos proporcionados.\n\n"
+            "Eres un asistente experto y estrictamente literal. Tu única fuente de verdad es el CONTEXTO proporcionado. "
+            "REGLAS ESTRICTAS:\n"
+            "1. Lee detenidamente TODO el contexto antes de responder.\n"
+            "2. Responde ÚNICAMENTE usando la información del CONTEXTO.\n"
+            "3. NO uses conocimiento externo, NO inferieras, NO agregues datos.\n"
+            "4. Si el CONTEXTO contiene la respuesta, cita el texto exacto.\n"
+            "5. Solo si después de leer todo el contexto no encuentras la respuesta, di: 'No dispongo de información suficiente en los documentos proporcionados.'\n\n"
             "Contexto:\n{context}"
         )
 
