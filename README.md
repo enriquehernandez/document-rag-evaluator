@@ -1,3 +1,7 @@
+[![codecov](https://codecov.io/github/enriquehernandez/document-rag-evaluator/graph/badge.svg?token=MYW64CONDR)](https://codecov.io/github/enriquehernandez/document-rag-evaluator)
+
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688?style=for-the-badge&logo=fastapi&logoColor=white) ![OpenRouter](https://img.shields.io/badge/OpenRouter-Provider--Agnostic-6467F2?style=for-the-badge) ![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen?style=for-the-badge)
+
 # 🧠 Advanced RAG Evaluator
 
 Un sistema de Generación Aumentada por Recuperación (RAG) de nivel producción, diseñado para consultar documentos PDF (ej. contratos, manuales técnicos, guías) con un alto grado de precisión y trazabilidad.
