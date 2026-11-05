@@ -49,14 +49,15 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
-addopts = "--cov=app --cov-report=term-missing --cov-report=html --cov-report=xml"
+# addopts = "--cov=app --cov-report=term-missing --cov-report=html --cov-report=xml"
+addopts = "--cov=app --cov-report=term-missing --cov-report=html --cov-report=xml --junitxml=junit.xml -o junit_family=legacy"
 
 [tool.tomlscript]
 # Levantar el servidor en el puerto 8000
 dev = "uv run uvicorn app.main:app --reload --port 8000"
 
 # Correr todos los tests con cobertura
-test = "uv run pytest tests/ --cov=app --cov-report=term-missing"
+test = "uv run pytest tests/ "
 
 # Correr solo un test específico (por ejemplo, el de la API)
 test-api = "uv run pytest tests/test_api.py -v"
