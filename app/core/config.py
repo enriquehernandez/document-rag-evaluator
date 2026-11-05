@@ -1,4 +1,4 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Literal
 
 
@@ -23,10 +23,20 @@ class Settings(BaseSettings):
 
     EMBEDDING_PROVIDER: Literal["OPENAI",
                                 "HUGGINGFACE", "OPENROUTER"] = "OPENROUTER"
+    OPENAI_EMBEDDING_MODEL: str = "text-embedding-3-small"
     OPENROUTER_EMBEDDING_MODEL: str = "openai/text-embedding-3-small"
+    HUGGINGFACE_EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
 
-    class Config:
-        env_file = ".env"
+    # Configuración de Ingesta
+    INGEST_MODE: Literal["FULL", "INCREMENTAL"] = "FULL"
+
+    # class Config:
+    #     env_file = ".env"
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore"
+    )
 
 
 settings = Settings()

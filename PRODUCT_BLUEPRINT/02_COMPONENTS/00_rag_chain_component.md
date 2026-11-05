@@ -13,25 +13,12 @@ Orquestar la recuperación de información desde ChromaDB y la generación de re
 ## Contrato de Salida
 ```json
 {
-  "answer": "Según el documento, los requisitos son: 1. Pasaporte válido, 2. ..."
-}
-```
-
-## Contrato de Entrada
-```json
-{
-  "query": "string",
-  "chat_history": "list[tuple]",
-  "document_filter": "string (opcional)"
-}
-```
-
-## Contrato de Salida
-```json
-{
   "answer": "string",
   "sources": ["doc1.pdf (pag 5)", "doc2.pdf (pag 12)"],
-  "tokens_used": "integer"
+  "tokens_used": {
+    "prompt_tokens": int,
+    "completion_tokens": int,
+    "total_tokens": int
 }
 ```
 
