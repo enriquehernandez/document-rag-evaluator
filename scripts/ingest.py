@@ -45,7 +45,14 @@ def _process_full_ingest(pdf_files: List[Path], embeddings):
         print(f"⏳ Procesando completo: {pdf_path.name}...")
         loader = PyPDFLoader(str(pdf_path))
         docs = loader.load()
-        all_splits.extend(text_splitter.split_documents(docs))
+        splits = text_splitter.split_documents(docs)
+
+        # ✨ AGREGAMOS LA LÓGICA DEL HASH AQUÍ TAMBIÉN
+        file_hash = _generate_file_hash(pdf_path)
+        for split in splits:
+            split.metadata["file_hash"] = file_hash
+
+        all_splits.extend(splits)
 
     print(f"✂️ Se dividieron los documentos en {len(all_splits)} chunks.")
     print("💾 Guardando en ChromaDB...")
